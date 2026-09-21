@@ -1,0 +1,40 @@
+import re
+
+regex_email = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+emails_validos = []
+emails_invalidos = []
+motivos_invalidos = {}
+
+casosTeste = [
+    "maria@gmail.com",
+    "joao.silva@udf.edu.br",
+    "estudante_01@faculdade.com",
+    "pedro.gmail.com",
+    "ana@dominio"
+]
+
+print("Iniciando a Validação de E-mails\n")
+
+# Analisando cada e-mail da lista
+for email in casosTeste:
+    if re.match(regex_email, email):
+        emails_validos.append(email)
+    else:
+        emails_invalidos.append(email)
+        
+        if "@" not in email:
+            motivos_invalidos[email] = "Falta o símbolo '@' obrigatório."
+        elif "." not in email.split("@")[-1]:
+            motivos_invalidos[email] = "Falta o domínio de topo (como '.com' ou '.br') após o '@'."
+        else:
+            motivos_invalidos[email] = "Formato geral incorreto (caracteres inválidos ou estrutura errada)."
+
+print("E-mails Válidos:")
+for email in emails_validos:
+    print(f" - {email}")
+
+print("\nE-mails Inválidos:")
+for email in emails_invalidos:
+    print(f" - {email}")
+    print(f"   Motivo da rejeição: {motivos_invalidos[email]}\n")
